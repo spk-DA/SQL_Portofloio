@@ -1,3 +1,5 @@
+-- Module 3 – Customer Analytics (41–60)
+
 41. Find the top 10 customers by business.
 SELECT customer_name,
 SUM(transaction_amount) AS total_business
