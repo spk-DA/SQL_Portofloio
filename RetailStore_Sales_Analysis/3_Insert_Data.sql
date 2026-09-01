@@ -1,6 +1,4 @@
-Step 3: Insert Sample Data (20 Records)
-  
-INSERT INTO store_sales
+ INSERT INTO store_sales
 (order_date,customer_name,gender,age,city,state,product_name,category,quantity,unit_price,discount,total_amount,payment_mode,salesperson)
 
 VALUES
