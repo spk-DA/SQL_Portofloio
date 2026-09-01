@@ -1,4 +1,3 @@
-Step 2: Create Table
 CREATE TABLE store_sales
 (
 sale_id INT PRIMARY KEY AUTO_INCREMENT,
