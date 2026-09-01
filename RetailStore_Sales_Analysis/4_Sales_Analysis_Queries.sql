@@ -1,87 +1,217 @@
--- Display all records.
-select * from store_sales;
--- Show customer name, city and product purchased
-select customer_name,city,product_name from store_sales ;
--- Find all customers from Delhi.
-select * from store_sales where city="Delhi";
--- Display all Electronics products.
-select product_name,category from store_sales where Category="Electronics";
--- Find sales greater than ₹30,000.
-select * from store_sales where total_amount >30000;
--- Show customers aged above 30 years.
-select customer_name,age from store_sales where age >30;
--- Sort records by highest sale amount.
-select * from store_sales order by total_amount desc ;
--- Display the first 5 records.
-select * from store_sales LIMIT 5 ;
--- Find customers whose names start with 'R'.
-select * from store_sales where customer_name like "R%";
--- Display all unique cities.
-select distinct city from store_sales ;
+-- 1. Display all records.
+SELECT *
+FROM store_sales;
 
 
--- Calculate total sales revenue.
-select sum(total_amount) from store_sales ;
--- Calculate average sales amount.
-select avg(total_amount) from store_sales ;
--- Find the maximum sale amount.
-select max(total_amount) from store_sales ;
--- Find the minimum sale amount.
-select min(total_amount) from store_sales ;
--- Count total orders.
-select count(sale_id) from store_sales ;
--- Display city-wise total sales.
-select city,sum(total_amount) from store_sales group by city;
-select * from store_sales;
--- Display category-wise revenue.
-select category,sum(total_amount) from store_sales group by category;
+-- 2. Show customer name, city and product purchased.
+SELECT customer_name, city, product_name
+FROM store_sales;
 
--- Display salesperson-wise revenue.
-select salesperson, sum(total_amount) from store_sales group by salesperson;
--- Count orders by payment mode.
-select payment_mode,count(order_date) from store_sales group by payment_mode;
--- Find customers who have placed more than one order
-select customer_name,count(order_date) from store_sales group by customer_name ; 
 
--- Find the city with the highest sales.
-select city, sum(total_amount)  from  store_sales group by city order by sum(total_amount) DESC LIMIT 1 ;
-select * from store_sales;
--- Find the category generating the highest revenue.
-select category,sum(total_amount) from store_sales group by category  order by sum(total_amount) DESC LIMIT 1 ;
-select category,sum(total_amount) as total_revenue from store_sales group by category  order by total_revenue DESC LIMIT 1 ;
+-- 3. Find all customers from Delhi.
+SELECT *
+FROM store_sales
+WHERE city = 'Delhi';
 
--- Display monthly sales revenue.
 
-select order_date,sum(total_amount) from store_sales group by order_date ;
+-- 4. Display all Electronics products.
+SELECT *
+FROM store_sales
+WHERE category = 'Electronics';
 
--- Find the top 5 highest sales transactions.
-select category,total_amount  from store_sales order by total_amount DESC limit 5;
 
--- Display product-wise quantity sold.
-select product_name,sum(quantity) from store_sales group by product_name ;
+-- 5. Find sales greater than ₹30,000.
+SELECT *
+FROM store_sales
+WHERE total_amount > 30000;
 
--- Calculate average sales by city.
-select city,avg (total_amount) as avgsales from store_sales group by city ;
 
--- Show gross amount before discount for every order.
-select category,unit_price*quantity as gross_amount from store_sales order by gross_amount desc  ;
+-- 6. Show customers aged above 30 years.
+SELECT *
+FROM store_sales
+WHERE age > 30;
 
--- List customers who paid using UPI.
-select customer_name,payment_mode,total_amount from store_sales where payment_mode="UPI";
 
--- Find the most popular payment mode.
-select sum(total_amount),payment_mode,count(payment_mode) as popular_mode from store_sales group by payment_mode order by popular_mode desc ; 
+-- 7. Sort records by highest sale amount.
+SELECT *
+FROM store_sales
+ORDER BY total_amount DESC;
 
--- Display all Furniture products costing more than ₹20,000.
-select category,product_name,total_amount from store_sales  where category="Furniture" and  total_amount >20000;
 
--- Find customers between ages 25 and 35.
-select customer_name ,age from store_sales  where age between 25 and 35 ;
+-- 8. Display the first 5 records.
+SELECT *
+FROM store_sales
+ORDER BY order_date ASC
+LIMIT 5;
 
--- Display state-wise revenue.
-select state,sum(total_amount) as revenue from store_sales group by state ;
 
--- Find the salesperson with the maximum revenue.
-select salesperson,sum(total_amount) as max_revenue from store_sales group by salesperson order by max_revenue  desc ;
+-- 9. Find customers whose names start with 'R'.
+SELECT *
+FROM store_sales
+WHERE customer_name LIKE 'R%';
 
-select * from store_sales;
+
+-- 10. Display all unique cities.
+SELECT DISTINCT city
+FROM store_sales;
+
+
+-- 11. Calculate total sales revenue.
+SELECT SUM(total_amount) AS total_revenue
+FROM store_sales;
+
+
+-- 12. Calculate average sales amount.
+SELECT AVG(total_amount) AS average_sales
+FROM store_sales;
+
+
+-- 13. Find the maximum sale amount.
+SELECT MAX(total_amount) AS maximum_sale
+FROM store_sales;
+
+
+-- 14. Find the minimum sale amount.
+SELECT MIN(total_amount) AS minimum_sale
+FROM store_sales;
+
+
+-- 15. Count total orders.
+SELECT COUNT(*) AS total_orders
+FROM store_sales;
+
+
+-- 16. Display city-wise total sales.
+SELECT city, SUM(total_amount) AS total_sales
+FROM store_sales
+GROUP BY city;
+
+
+-- 17. Display category-wise revenue.
+SELECT category, SUM(total_amount) AS total_revenue
+FROM store_sales
+GROUP BY category;
+
+
+-- 18. Display salesperson-wise revenue.
+SELECT salesperson, SUM(total_amount) AS total_revenue
+FROM store_sales
+GROUP BY salesperson;
+
+
+-- 19. Count orders by payment mode.
+SELECT payment_mode, COUNT(*) AS total_orders
+FROM store_sales
+GROUP BY payment_mode;
+
+
+-- 20. Find customers who have placed more than one order.
+SELECT customer_name, COUNT(*) AS total_orders
+FROM store_sales
+GROUP BY customer_name
+HAVING COUNT(*) > 1;
+
+
+-- 21. Find the city with the highest sales.
+SELECT city, SUM(total_amount) AS total_sales
+FROM store_sales
+GROUP BY city
+ORDER BY total_sales DESC
+LIMIT 1;
+
+
+-- 22. Find the category generating the highest revenue.
+SELECT category, SUM(total_amount) AS total_revenue
+FROM store_sales
+GROUP BY category
+ORDER BY total_revenue DESC
+LIMIT 1;
+
+
+-- 23. Display monthly sales revenue.
+SELECT MONTHNAME(order_date) AS month,
+       SUM(total_amount) AS total_revenue
+FROM store_sales
+GROUP BY MONTH(order_date), MONTHNAME(order_date)
+ORDER BY MONTH(order_date);
+
+
+-- 24. Find the top 5 highest sales transactions.
+SELECT *
+FROM store_sales
+ORDER BY total_amount DESC
+LIMIT 5;
+
+
+-- 25. Display product-wise quantity sold.
+SELECT product_name, SUM(quantity) AS total_quantity_sold
+FROM store_sales
+GROUP BY product_name;
+
+
+-- 26. Calculate average sales by city.
+SELECT city, AVG(total_amount) AS average_sales
+FROM store_sales
+GROUP BY city;
+
+
+-- 27. Show gross amount before discount for every order.
+SELECT *,
+       quantity * unit_price AS amount_before_discount
+FROM store_sales;
+
+
+-- 28. List customers who paid using UPI.
+SELECT customer_name
+FROM store_sales
+WHERE payment_mode = 'UPI';
+
+
+-- 29. Find the most popular payment mode.
+SELECT payment_mode, COUNT(*) AS total_orders
+FROM store_sales
+GROUP BY payment_mode
+ORDER BY total_orders DESC
+LIMIT 1;
+
+
+-- 30. Display all Furniture products costing more than ₹20,000.
+SELECT *
+FROM store_sales
+WHERE category = 'Furniture'
+AND unit_price > 20000;
+
+
+-- 31. Find customers between ages 25 and 35.
+SELECT customer_name
+FROM store_sales
+WHERE age BETWEEN 25 AND 35;
+
+
+-- 32. Count male and female customers.
+SELECT gender, COUNT(*) AS total_customers
+FROM store_sales
+GROUP BY gender;
+
+
+-- 33. Display state-wise revenue.
+SELECT state, SUM(total_amount) AS total_revenue
+FROM store_sales
+GROUP BY state;
+
+
+-- 34. Find the salesperson with the maximum revenue.
+SELECT salesperson, SUM(total_amount) AS total_revenue
+FROM store_sales
+GROUP BY salesperson
+ORDER BY total_revenue DESC
+LIMIT 1;
+
+
+-- 35. Create a business KPI report showing total orders, total revenue,
+-- average sales and highest sale.
+SELECT COUNT(*) AS total_orders,
+       SUM(total_amount) AS total_revenue,
+       AVG(total_amount) AS average_sales,
+       MAX(total_amount) AS highest_sale
+FROM store_sales;
